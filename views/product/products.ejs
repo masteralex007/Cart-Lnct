@@ -1,0 +1,65 @@
+<% include ../partials/header %>
+
+<!-- design the page according to you -->
+
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Account</a>
+        <a href="#">home</a>
+        <a href="/products/new">Sell a product</a>
+        <a href="/products">product list</a>
+        
+    </div>
+
+
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    
+        <div class="container">
+            <div class="jumbotron" id="addcolor">
+                <h1>Let's share and Grow Together</h1>
+                <p>you can choose to buy and sell your products</p>
+                <button class="btn btn-lg btn-primary" onclick="window.location.href='/products/new'">
+                    Sell a product
+                </button>
+                <p>
+                    <form action="/products" method="GET" class="form-inline">
+                        <div class="form-group">
+                                <input type="text" name="search" placeholder="Product Search" class="form-control">
+                                <input type="submit" value="Search" class="btn btn-default">
+                        </div>
+                    </form>
+                </p>
+                <a href="/chat" class="btn btn-primary">
+                    Discuss
+                </a>
+            </div>
+            <div class="row">
+                <% products.forEach(function(product){ %>
+                    <div class="col-md-3">
+                        <div class="card" id="resize">
+                            <img src="<%= product.image %>" alt="Image not available due to some error">
+                            <p><%= product.name %></p>
+                            <p>
+                                <a href="/products/<%= product._id %>" class="btn btn-sm btn-primary">More Info</a>
+                            </p>
+                        </div>
+                    </div>
+                <% }); %>
+                
+            </div>
+        </div>
+       
+    
+    
+<% include ../partials/footer %>

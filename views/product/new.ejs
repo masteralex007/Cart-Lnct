@@ -1,0 +1,78 @@
+<% include ../partials/header %>
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">Account</a>
+    <a href="#">home</a>
+    <a href="/products/new">Sell a product</a>
+    <a href="/products">product list</a>
+    
+</div>
+
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+<div class="container">
+    <div class="jumbotron" id="addcolor">
+        <h1>Add your Product to the Products List</h1>
+
+        <form action="/products" method="POST" enctype="multipart/form-data">
+            <div class="spacing">
+                <label for="exampleFormControlFile1"><span id="imageupload">Product Name:</span></label>
+                <input class="form-control" type="text" name="name" placeholder="name" style="width: 500px;">
+            </div>
+            <div class="form-group spacing">
+                <label for="exampleFormControlFile1"><span id="imageupload">Upload Image Of Product:</span></label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1" name="image">
+            </div>
+            <div class="spacing">
+                <label for="exampleFormControlFile1"><span id="imageupload">price Of The Product:</span></label>
+                <input class="form-control" type="number" name="price" placeholder="price" style="width: 500px;">
+            
+            </div>
+            <div class="spacing">
+                <label for="exampleFormControlFile1"><span id="imageupload">Email-Id:</span></label>
+                <input class="form-control" type="email" name="email" placeholder="Email-Id" style="width: 500px;" >
+            </div>
+            <div class="spacing">
+                <label for="exampleFormControlFile1"><span id="imageupload">Product Description:</span></label>
+                <input class="form-control" type="text" name="description" placeholder="description" style="width: 500px;height:150px">
+            </div>
+            <div class="spacing">
+                <button type="submit" class="btn-primary">
+                Submit
+            
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<section class="cid-qIjGVVeB7i diminish"  >
+
+
+
+
+        <div>
+            <div class="row justify-content-center ">
+                <div class="title col-12 col-lg-7 col-md-6">
+                    <h3 class="mbr-section-subtitle align-left mbr-light pb-3 mbr-fonts-style display-5">
+                    HURRY UP!</h3>
+                    <h2 class="align-left ">Like it? you are only one click away<br></h2>
+                </div>
+                
+            </div>
+        </div>
+</section>
+<% include ../partials/footer %>
+
+<!-- onclick="window.location.href='/'" -->
