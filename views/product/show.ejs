@@ -1,0 +1,94 @@
+<% include ../partials/header %>
+
+<div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Account</a>
+        <a href="#">home</a>
+        <a href="#">Sell a product</a>
+        <a href="#">product list</a>
+        
+</div>
+    
+    
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+    
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+<div>      
+            <div id="productdetail">
+                <img src="<%= product.image %>" alt="Image not available due to some error">
+            </div>
+            
+                        <div id="productdetail" class="restdetail">
+                            <h5>Product Name:</h5>
+                            <p id="namestyle"><%= product.name %></p>
+
+                            
+                            <h5>
+                                A product By:
+                            </h5>
+                            <p id="descstyle">
+                                <%= product.author.username %>
+                            </p>
+                            <h5>
+                                Email-Id:
+                            </h5>
+                            <p id="descstyle">
+                                <%= product.email %>
+                            </p>
+
+                            
+                            <h5>Product Description:</h5>
+                            <p id="descstyle">
+                                <%= product.description %>
+                            </p>
+                            <a href="/products/<%= product._id %>/comments/new" class="btn btn-primary">
+                                Add A Comment
+                            </a>
+                        </div>
+                        <% if(currentUser && product.author.id.equals(currentUser._id)){ %>
+                            <form action="/products/<%= product._id%>/del2/?_method=DELETE" method="POST">
+                                <button class="btn btn-warning">
+                                    Edit
+                                </button>
+                            </form>
+                            <div class="spacing">
+                                <form action="/products/<%= product._id%>/?_method=DELETE" method="POST">
+                                    <button class="btn btn-danger">
+                                        delete
+                                    </button>
+                                </form>
+                            </div>
+                        <% } %>
+            
+                    
+                    
+        
+
+                        
+                    
+</div>
+
+<% product.comments.forEach(function(comment){ %>
+    <p>
+       <strong> <%= comment.author.username %></strong> -  <%= comment.text %>
+    </p>
+    
+<% }) %>
+
+<!-- <div class="row">
+    <% product.comments.forEach(function(comment){ %>
+        <p>
+        <strong> <%= comment.author %></strong> -  <%= comment.text %>
+        </p>
+    <% }) %>
+</div> -->
+    
+<% include ../partials/footer %>

@@ -1,0 +1,40 @@
+<% include partials/header %>
+
+<div>
+    <h1 class="heading">
+        Welcome Back
+    </h1>
+</div>
+
+
+<form action="/login" method="POST">
+    <div class="container formContain" >
+        <div class="container2">
+            <img class="middleIcon" src="https://image.flaticon.com/icons/png/512/16/16480.png">
+            <div class="labe">
+                <p>
+                    <label>
+                        Username
+                    </label>
+                </p>
+                <input type="text" name="username", placeholder="username" class="modify">
+            </div>
+            
+            <div class="labe">
+                <p>
+                    <label>
+                        Password
+                    </label>
+                </p>
+                <input type="password" name="password" placeholder="password" class="modify">
+            </div>
+            <div class="labe">
+                <button type="submit" class="butto  btn-primary">
+                    Login
+                </button>
+        </div>
+        
+    </div>
+</form>
+
+<% include partials/footer %>

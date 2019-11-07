@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Discussion Forum</title>
+    <style>
+        #chat{;
+            height: 500px;
+            background: #1CD8D2;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #93EDC7, #1CD8D2);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #93EDC7, #1CD8D2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+        #contentWrap{
+            display: none;
+        }
+        #chatWrap{
+            text-align: center;
+	margin: 0 auto;
+	width:40%;
+	box-sizing: border-box;
+	border-radius: 10px;
+            float: left;
+            border: 5px solid rgb(187, 111, 12);   
+        }
+        .error{
+            color: red;
+        }
+        .wishper{
+            color:rgba(199, 22, 223, 0.397);
+            font-style: italic;
+        }
+        .chatstyle{
+            
+            background: #334d50;
+            background: #1CD8D2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #93EDC7, #1CD8D2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #93EDC7, #1CD8D2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            /* padding-left: 30%;
+            margin-right: 30%;
+            margin-top: 20%;
+            margin-bottom: 10%; */
+        }
+        html,body{
+            background: #DC2424;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #4A569D, #DC2424);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #4A569D, #DC2424); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="nickWrap">
+        <p>Enter a Username</p>
+        <p id="nickError">
+        </p>
+        <form id="setNick">
+            <input type="hidden" size="35" id="nickname" value="<%= currentUser.username %>">
+            <input type="submit">
+        </form>
+    </div>
+    <div class="container chatStyle">
+        <div id="contentWrap">
+            <div id="chatWrap">
+                <div id="chat"></div>
+                <form id="send-message">
+                    <input id="message" size="35">
+                    <input type="submit">
+                </form>
+            </div>
+            <div id="users"></div>
+        </div>
+    </div>
+    <!-- <div id="contentWrap">
+        <div id="chatWrap">
+            <div id="chat"></div>
+            <form id="send-message">
+                <input id="message" size="35">
+                <input type="submit">
+            </form>
+        </div>
+        <div id="users"></div>
+    </div> -->
+        
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  <script src="  https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+    <script>
+        jQuery(function($){
+            var socket = io.connect();  //connects socket io
+            var $nickForm = $("#setNick");
+            var $nickError = $("#nickError");
+            var $nickBox   = $("#nickname");
+            var $users     = $("#users");
+            var $messageForm = $('#send-message');
+            var $messageBox  = $('#message');
+            var $chat        = $('#chat');
+
+            $nickForm.submit(function(e){
+                e.preventDefault();
+                socket.emit("new user", $nickBox.val(), function(data){
+                    if(data){
+                        $("#nickWrap").hide();
+                        $("#contentWrap").show();
+                    } else{
+                        $nickError.html("That Username is already Taken, Try again With a different one");
+                    }
+                });
+                $nickBox.val("");
+            }); 
+
+            socket.on("usernames", function(data){
+                var html = '';
+                for(i=0; i< data.length; i++){
+                    html += data[i] + "<br/>"
+                }
+                $users.html(html);
+            }); 
+
+            //the below code is used to send message(it binds the event handler to the message form)
+            $messageForm.submit(function(e){
+                e.preventDefault();  //it prevents the gefault behaviour of the form as by default it will send the message and refreash the page
+                socket.emit('send message', $messageBox.val(), function(data){
+                    $chat.append('<span class="error">' + data + "</span><br/>");
+                });
+                $messageBox.val(''); //clears the message box value after sending the message
+            });
+
+            socket.on("new message", function(data){
+                 $chat.append("<b>" + data.nick + ": </b>" + data.msg + "<br/>");
+            });
+
+            socket.on('wishper', function(data){
+                $chat.append('<span class="wishper"><b>' + data.nick + ': </b>' + data.msg + "</span><br/>");
+            })
+        });
+    </script>
+</body>
+</html>
